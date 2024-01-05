@@ -1,11 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {  searchBook, sortBooksByAuthorBirthYear, sortBooksByGender, sortBooksByType } from "../redux/auth/authSlice";
 
 export default function Navbar() {
   const [selectedOption, setSelectedOption] = useState("option1");
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const { books } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
-  const handleOptionChange = (option) => {
-    setSelectedOption(option);
+  // const handleSortByYear = () => {
+  //   dispatch(filterBooksByYear());
+  // };
+  
+  const handleSortByAuthorBirthYear = () => {
+    dispatch(sortBooksByAuthorBirthYear());
+  };
+  
+  const handleSortByType = () => {
+    dispatch(sortBooksByType());
+  };
+  
+  const handleSortByGender = () => {
+    dispatch(sortBooksByGender());
   };
 
   const handleLogout = () => {
@@ -22,47 +40,27 @@ export default function Navbar() {
     <div className="relative bg-gradient-to-r from-gray-800 to-gray-900 text-white overflow-hidden">
       <div className="p-4 flex items-center justify-between">
         <span className="text-xl font-bold">Favourite Books</span>
-        <div className="lg:flex hidden items-center">
+        <div className="lg:flex hidden items-center gap-8">
           {/* Desktop menu options */}
           <div className="flex items-center ml-4">
-            <input
-              type="radio"
-              id="option1"
-              name="options"
-              value="option1"
-              checked={selectedOption === "option1"}
-              onChange={() => handleOptionChange("option1")}
-              className="mr-2"
-            />
-            <label htmlFor="option1" className="mr-4 text-white">
-              Option 1
-            </label>
+            {/* <button onClick={handleSortByYear} className="mr-4 text-white">
+              Sort by Year
+            </button> */}
 
-            <input
-              type="radio"
-              id="option2"
-              name="options"
-              value="option2"
-              checked={selectedOption === "option2"}
-              onChange={() => handleOptionChange("option2")}
-              className="mr-2"
-            />
-            <label htmlFor="option2" className="mr-4 text-white">
-              Option 2
-            </label>
+            <button
+              onClick={handleSortByAuthorBirthYear}
+              className="mr-4 text-white"
+            >
+              Sort by Author Birth Year
+            </button>
 
-            <input
-              type="radio"
-              id="option3"
-              name="options"
-              value="option3"
-              checked={selectedOption === "option3"}
-              onChange={() => handleOptionChange("option3")}
-              className="mr-2"
-            />
-            <label htmlFor="option3" className="text-white">
-              Option 3
-            </label>
+            <button onClick={handleSortByType} className="mr-4 text-white">
+              Sort by Type
+            </button>
+
+            <button onClick={handleSortByGender} className="text-white">
+              Sort by Gender
+            </button>
           </div>
 
           <div className="flex items-center ml-4">
@@ -104,7 +102,7 @@ export default function Navbar() {
               name="mobileOptions"
               value="option1"
               checked={selectedOption === "option1"}
-              onChange={() => handleOptionChange("option1")}
+              onChange={""}
               className="mr-2"
             />
             <label htmlFor="mobileOption1" className="mr-4 text-white">
@@ -117,7 +115,7 @@ export default function Navbar() {
               name="mobileOptions"
               value="option2"
               checked={selectedOption === "option2"}
-              onChange={() => handleOptionChange("option2")}
+              onChange={""}
               className="mr-2"
             />
             <label htmlFor="mobileOption2" className="mr-4 text-white">
@@ -130,7 +128,7 @@ export default function Navbar() {
               name="mobileOptions"
               value="option3"
               checked={selectedOption === "option3"}
-              onChange={() => handleOptionChange("option3")}
+              onChange={''}
               className="mr-2"
             />
             <label htmlFor="mobileOption3" className="text-white">

@@ -4,11 +4,7 @@ import { assert, http } from "../../utils";
 
 const login = async (userData) => {
  try {
-    const res = await http.post(`${BASE_URL}/rest-auth/login/`, userData, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await http.post(`${BASE_URL}/rest-auth/login/`, userData)
 
    if (res.data) {
      // Extract the tokens from the response

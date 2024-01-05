@@ -178,42 +178,66 @@ const initState = {
       published_on: 2020,
       comments: ["exciting superhero tales", "awesome illustrations"],
     },
-   
   ],
+  selectedOption: "option1",
 };
- export const login = createAsyncThunk("login", async (data, thunkAPI) =>
-   smartTryCatch(authService.login, data, thunkAPI)
- );
+export const login = createAsyncThunk("login", async (data, thunkAPI) =>
+  smartTryCatch(authService.login, data, thunkAPI)
+);
 
- export const authSlice = createSlice({
-    name:'auth',
-    initialState:initState,
-    reducers:{
-        resetAuth:(state)=>{
-            state.isLoading=false;
-            state.isError = false;
-            state.isSuccess = false;
-        }
+export const authSlice = createSlice({
+  name: "auth",
+  initialState: initState,
+  reducers: {
+    resetAuth: (state) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = false;
     },
-    extraReducers:(builder)=>{
-        builder
+    searchBook: (state, action) => {
+      const searchItem = action.payload.toLowerCase();
+      state.books = state.books.filter((book) =>
+        book.book_name.toLowerCase().includes(searchItem)
+      );
+    },
+    sortBooksByAuthorBirthYear: (state) => {
+      // Sort books by author birth year in ascending order
+      state.books.sort(
+        (a, b) => a.author_info.birth_year - b.author_info.birth_year
+      );
+    },
+    sortBooksByType: (state) => {
+      // Sort books by book type alphabetically
+      state.books.sort((a, b) => a.book_type.localeCompare(b.book_type));
+    },
+    sortBooksByGender: (state) => {
+      // Sort books by author gender alphabetically
+      state.books.sort((a, b) =>
+        a.author_info.gender.localeCompare(b.author_info.gender)
+      );
+    },
+  },
+  extraReducers: (builder) => {
+    builder
 
-          .addCase(login.fulfilled, (state, action) => {
-            state.isLoading = false;
-            state.isError = false;
-            state.isSuccess = true;
-            state.user = action.payload;
-          })
-          .addCase(login.rejected, (state) => {
-            state.isLoading = false;
-            state.isError = true;
-            state.user = null;
-          })
-          .addCase(login.pending, (state) => {
-            state.isLoading = true;
-            state.isError = true;
-            state.user = null;
-          });
-    }
- })
+      .addCase(login.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+      })
+      .addCase(login.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.user = null;
+      })
+      .addCase(login.pending, (state) => {
+        state.isLoading = true;
+        state.isError = true;
+        state.user = null;
+      });
+  },
+});
+
+export const { resetAuth, searchBook,sortBooksByAuthorBirthYear,sortBooksByType,sortBooksByGender } = authSlice.actions;
 export default authSlice.reducer;
