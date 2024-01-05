@@ -6,11 +6,14 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { BrowserRouter} from "react-router-dom";
+import { AuthProvider } from "./utils/useAuth";
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <App/>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </BrowserRouter>
   </Provider>,
   document.getElementById("root")

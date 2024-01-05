@@ -23,7 +23,6 @@ export default function Navbar() {
 
   const handleSortByAuthorBirthYear = () => {
     // Add a class to trigger the animation
-    setSortByAuthorBirthYearAnimating(true);
 
     // Dispatch the action
     dispatch(sortBooksByAuthorBirthYear());
@@ -35,32 +34,20 @@ export default function Navbar() {
   };
 
   const handleSortByType = () => {
-    setSortByAuthorBirthYearAnimating(true);
     dispatch(sortBooksByType());
-    setTimeout(() => {
-      setSortByAuthorBirthYearAnimating(false);
-    }, 300);
   };
 
   const handleSortByGender = () => {
-    setSortByAuthorBirthYearAnimating(true);
     dispatch(sortBooksByGender());
-    setTimeout(() => {
-      setSortByAuthorBirthYearAnimating(false);
-    }, 300);
   };
 
   const handleSortBypublishYear = () => {
-    setSortByAuthorBirthYearAnimating(true);
     dispatch(sortBooksByPublishYear());
-    setTimeout(() => {
-      setSortByAuthorBirthYearAnimating(false);
-    }, 300);
   };
   const handleLogout = () => {
     // Perform logout logic here
     // For example, you can clear user authentication state or redirect to the logout page
-    history("/login")
+    history("/login");
   };
 
   const toggleMobileMenu = () => {
@@ -139,7 +126,6 @@ export default function Navbar() {
           <button
             onClick={handleLogout}
             className="bg-red-500 text-white px-4 py-2 rounded-md focus:outline-none focus:ring focus:border-blue-300"
-            
           >
             Logout
           </button>
