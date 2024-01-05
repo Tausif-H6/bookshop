@@ -1,31 +1,60 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {  searchBook, sortBooksByAuthorBirthYear, sortBooksByGender, sortBooksByType } from "../redux/auth/authSlice";
+import {
+  searchBook,
+  sortBooksByAuthorBirthYear,
+  sortBooksByGender,
+  sortBooksByPublishYear,
+  sortBooksByType,
+} from "../redux/auth/authSlice";
 
 export default function Navbar() {
   const [selectedOption, setSelectedOption] = useState("option1");
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchInput, setSearchInput] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
-  const { books } = useSelector((state) => state.auth);
+  const [isSortByAuthorBirthYearAnimating, setSortByAuthorBirthYearAnimating] =
+    useState(false);
   const dispatch = useDispatch();
 
   // const handleSortByYear = () => {
   //   dispatch(filterBooksByYear());
   // };
-  
+
   const handleSortByAuthorBirthYear = () => {
+    // Add a class to trigger the animation
+    setSortByAuthorBirthYearAnimating(true);
+
+    // Dispatch the action
     dispatch(sortBooksByAuthorBirthYear());
-  };
-  
-  const handleSortByType = () => {
-    dispatch(sortBooksByType());
-  };
-  
-  const handleSortByGender = () => {
-    dispatch(sortBooksByGender());
+
+    // Reset the animation class after a short delay
+    setTimeout(() => {
+      setSortByAuthorBirthYearAnimating(false);
+    }, 300); // Adjust the delay as needed
   };
 
+  const handleSortByType = () => {
+    setSortByAuthorBirthYearAnimating(true);
+    dispatch(sortBooksByType());
+    setTimeout(() => {
+      setSortByAuthorBirthYearAnimating(false);
+    }, 300);
+  };
+
+  const handleSortByGender = () => {
+    setSortByAuthorBirthYearAnimating(true);
+    dispatch(sortBooksByGender());
+    setTimeout(() => {
+      setSortByAuthorBirthYearAnimating(false);
+    }, 300);
+  };
+
+  const handleSortBypublishYear = () => {
+    setSortByAuthorBirthYearAnimating(true);
+    dispatch(sortBooksByPublishYear());
+    setTimeout(() => {
+      setSortByAuthorBirthYearAnimating(false);
+    }, 300);
+  };
   const handleLogout = () => {
     // Perform logout logic here
     // For example, you can clear user authentication state or redirect to the logout page
@@ -43,23 +72,49 @@ export default function Navbar() {
         <div className="lg:flex hidden items-center gap-8">
           {/* Desktop menu options */}
           <div className="flex items-center ml-4">
-            {/* <button onClick={handleSortByYear} className="mr-4 text-white">
-              Sort by Year
-            </button> */}
-
             <button
               onClick={handleSortByAuthorBirthYear}
-              className="mr-4 text-white"
+              className={`mr-4 px-4 py-2  text-white  rounded-md transition-transform duration-300 transform hover:scale-105 focus:outline-none ${
+                isSortByAuthorBirthYearAnimating ? "animate-bounce" : ""
+              }`}
             >
               Sort by Author Birth Year
             </button>
 
-            <button onClick={handleSortByType} className="mr-4 text-white">
+            <button
+              onClick={handleSortByType}
+              className={`mr-4 px-4 py-2 text-white rounded-md transition-transform duration-300 transform hover:scale-105 focus:outline-none ${
+                isSortByAuthorBirthYearAnimating ? "animate-bounce" : ""
+              }`}
+            >
               Sort by Type
             </button>
 
-            <button onClick={handleSortByGender} className="text-white">
+            <button
+              onClick={handleSortByGender}
+              className={`mr-4 px-4 py-2 text-white rounded-md transition-transform duration-300 transform hover:scale-105 focus:outline-none ${
+                isSortByAuthorBirthYearAnimating ? "animate-bounce" : ""
+              }`}
+            >
               Sort by Gender
+            </button>
+
+            <button
+              onClick={handleSortByGender}
+              className={`mr-4 px-4 py-2 text-white rounded-md transition-transform duration-300 transform hover:scale-105 focus:outline-none ${
+                isSortByAuthorBirthYearAnimating ? "animate-bounce" : ""
+              }`}
+            >
+              Sort by Gender
+            </button>
+
+            <button
+              onClick={handleSortBypublishYear}
+              className={`mr-4 px-4 py-2 text-white rounded-md transition-transform duration-300 transform hover:scale-105 focus:outline-none ${
+                isSortByAuthorBirthYearAnimating ? "animate-bounce" : ""
+              }`}
+            >
+              Sort by Publish Year
             </button>
           </div>
 
@@ -95,45 +150,51 @@ export default function Navbar() {
       {isMobileMenuOpen && (
         <div className="lg:hidden">
           {/* Render your mobile menu options here */}
-          <div className="p-4">
-            <input
-              type="radio"
-              id="mobileOption1"
-              name="mobileOptions"
-              value="option1"
-              checked={selectedOption === "option1"}
-              onChange={""}
-              className="mr-2"
-            />
-            <label htmlFor="mobileOption1" className="mr-4 text-white">
-              Option 1
-            </label>
+          <div className="p4">
+            <button
+              onClick={handleSortByAuthorBirthYear}
+              className={`mr-4 px-4 py-2  text-white  rounded-md transition-transform duration-300 transform hover:scale-105 focus:outline-none ${
+                isSortByAuthorBirthYearAnimating ? "animate-bounce" : ""
+              }`}
+            >
+              Sort by Author Birth Year
+            </button>
 
-            <input
-              type="radio"
-              id="mobileOption2"
-              name="mobileOptions"
-              value="option2"
-              checked={selectedOption === "option2"}
-              onChange={""}
-              className="mr-2"
-            />
-            <label htmlFor="mobileOption2" className="mr-4 text-white">
-              Option 2
-            </label>
+            <button
+              onClick={handleSortByType}
+              className={`mr-4 px-4 py-2 text-white rounded-md transition-transform duration-300 transform hover:scale-105 focus:outline-none ${
+                isSortByAuthorBirthYearAnimating ? "animate-bounce" : ""
+              }`}
+            >
+              Sort by Type
+            </button>
 
-            <input
-              type="radio"
-              id="mobileOption3"
-              name="mobileOptions"
-              value="option3"
-              checked={selectedOption === "option3"}
-              onChange={''}
-              className="mr-2"
-            />
-            <label htmlFor="mobileOption3" className="text-white">
-              Option 3
-            </label>
+            <button
+              onClick={handleSortByGender}
+              className={`mr-4 px-4 py-2 text-white rounded-md transition-transform duration-300 transform hover:scale-105 focus:outline-none ${
+                isSortByAuthorBirthYearAnimating ? "animate-bounce" : ""
+              }`}
+            >
+              Sort by Gender
+            </button>
+
+            <button
+              onClick={handleSortByGender}
+              className={`mr-4 px-4 py-2 text-white rounded-md transition-transform duration-300 transform hover:scale-105 focus:outline-none ${
+                isSortByAuthorBirthYearAnimating ? "animate-bounce" : ""
+              }`}
+            >
+              Sort by Gender
+            </button>
+
+            <button
+              onClick={handleSortBypublishYear}
+              className={`mr-4 px-4 py-2 text-white rounded-md transition-transform duration-300 transform hover:scale-105 focus:outline-none ${
+                isSortByAuthorBirthYearAnimating ? "animate-bounce" : ""
+              }`}
+            >
+              Sort by Publish Year
+            </button>
           </div>
 
           <div className="p-4">

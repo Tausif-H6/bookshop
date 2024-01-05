@@ -211,10 +211,18 @@ export const authSlice = createSlice({
       state.books.sort((a, b) => a.book_type.localeCompare(b.book_type));
     },
     sortBooksByGender: (state) => {
+      console.log(
+        "Before sorting:",
+        state.books.map((book) => book.published_on)
+      );
       // Sort books by author gender alphabetically
       state.books.sort((a, b) =>
         a.author_info.gender.localeCompare(b.author_info.gender)
       );
+    },
+    sortBooksByPublishYear: (state) => {
+      // Sort books by published year in ascending order (newer books first)
+      state.books.sort((a, b) => b.published_on - a.published_on);
     },
   },
   extraReducers: (builder) => {
@@ -239,5 +247,12 @@ export const authSlice = createSlice({
   },
 });
 
-export const { resetAuth, searchBook,sortBooksByAuthorBirthYear,sortBooksByType,sortBooksByGender } = authSlice.actions;
+export const {
+  resetAuth,
+  searchBook,
+  sortBooksByAuthorBirthYear,
+  sortBooksByType,
+  sortBooksByGender,
+  sortBooksByPublishYear,
+} = authSlice.actions;
 export default authSlice.reducer;
