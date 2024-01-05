@@ -7,8 +7,10 @@ import {
   sortBooksByPublishYear,
   sortBooksByType,
 } from "../redux/auth/authSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+  const history = useNavigate();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSortByAuthorBirthYearAnimating, setSortByAuthorBirthYearAnimating] =
@@ -58,7 +60,7 @@ export default function Navbar() {
   const handleLogout = () => {
     // Perform logout logic here
     // For example, you can clear user authentication state or redirect to the logout page
-    console.log("Logout clicked");
+    history("/login")
   };
 
   const toggleMobileMenu = () => {
@@ -137,6 +139,7 @@ export default function Navbar() {
           <button
             onClick={handleLogout}
             className="bg-red-500 text-white px-4 py-2 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+            
           >
             Logout
           </button>

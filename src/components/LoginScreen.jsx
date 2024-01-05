@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/auth/authSlice";
 import { useNavigate } from "react-router-dom";
-
+import { toast } from 'react-toastify';
 function LoginScreen() {
   const history = useNavigate();
   const dispatch = useDispatch();
@@ -14,8 +14,16 @@ function LoginScreen() {
     const userInfo = { email: username, password: password };
     console.log("Form Data", userInfo);
     try {
-      await dispatch(login(userInfo));
-      // history("/")
+      // await dispatch(login(userInfo));
+      if(userInfo.email==="hello@ongshak.com"& userInfo.password ==="assignment@ongshak"){
+        toast.success('Login Successful');
+        history("/")
+      }else{
+        toast.error('Login Again with correct credentials',{
+          position: "top-center",
+        });
+        history("/login")
+      }
     } catch (error) {
       console.log(error.message);
     }
