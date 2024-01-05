@@ -12,6 +12,7 @@ const initState = {
   successAlternativeMessage: null,
   uid: null,
   tokenValidation: {},
+  searchQuery: "",
   books: [
     {
       book_type: "comic",
@@ -180,6 +181,7 @@ const initState = {
     },
   ],
   selectedOption: "option1",
+  originalBooks: [], // Store the original set of books for resetting
 };
 export const login = createAsyncThunk("login", async (data, thunkAPI) =>
   smartTryCatch(authService.login, data, thunkAPI)
@@ -196,10 +198,24 @@ export const authSlice = createSlice({
     },
     searchBook: (state, action) => {
       const searchItem = action.payload.toLowerCase();
-      state.books = state.books.filter((book) =>
-        book.book_name.toLowerCase().includes(searchItem)
+
+      // If search query is empty, reset to original books
+      if (!searchItem) {
+        state.books = [...state.originalBooks];
+        return;
+      }
+
+      // If originalBooks is empty, initialize it with the current state.books
+      if (state.originalBooks.length === 0) {
+        state.originalBooks = [...state.books];
+      }
+
+      // Filter books based on search query
+      state.books = state.originalBooks.filter((book) =>
+        book.book_name.toLowerCase().includes(searchItem)// Game changer
       );
     },
+
     sortBooksByAuthorBirthYear: (state) => {
       // Sort books by author birth year in ascending order
       state.books.sort(
@@ -223,6 +239,9 @@ export const authSlice = createSlice({
     sortBooksByPublishYear: (state) => {
       // Sort books by published year in ascending order (newer books first)
       state.books.sort((a, b) => b.published_on - a.published_on);
+    },
+    updateSearchQuery: (state, action) => {
+      state.searchQuery = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -254,5 +273,6 @@ export const {
   sortBooksByType,
   sortBooksByGender,
   sortBooksByPublishYear,
+  updateSearchQuery,
 } = authSlice.actions;
 export default authSlice.reducer;

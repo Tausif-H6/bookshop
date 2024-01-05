@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   searchBook,
   sortBooksByAuthorBirthYear,
@@ -9,8 +9,8 @@ import {
 } from "../redux/auth/authSlice";
 
 export default function Navbar() {
-  const [selectedOption, setSelectedOption] = useState("option1");
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [isSortByAuthorBirthYearAnimating, setSortByAuthorBirthYearAnimating] =
     useState(false);
   const dispatch = useDispatch();
@@ -63,6 +63,11 @@ export default function Navbar() {
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
+  };
+  const handleSearch = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    dispatch(searchBook(query)); // Dispatch the searchBook action with the query
   };
 
   return (
@@ -123,6 +128,8 @@ export default function Navbar() {
               type="text"
               placeholder="Search..."
               className="bg-gray-700 text-white border-none rounded-md px-4 py-2 focus:outline-none focus:ring focus:border-blue-300 mr-4"
+              value={searchQuery}
+              onChange={handleSearch}
             />
             {/* You can add a search icon here if needed */}
           </div>
