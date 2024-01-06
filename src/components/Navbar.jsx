@@ -198,6 +198,8 @@ export default function Navbar() {
               type="text"
               placeholder="Search..."
               className="bg-gray-700 text-white border-none rounded-md px-4 py-2 focus:outline-none focus:ring focus:border-blue-300 mb-4"
+              value={searchQuery}
+              onChange={handleSearch}
             />
             {/* You can add a search icon here if needed */}
           </div>
